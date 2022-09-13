@@ -36,3 +36,23 @@ A matching S is a set of ordered pairs, each from M × W, with the property that
 A perfect matching S' is a matching with the property that each member of M and each member of W appears in exactly one pair in S'.
 
 In the present situation, a perfect matching corresponds simply to a way of pairing off the men with the women, in such a way that everyone ends up married to somebody, and nobody is married to more than one person - there is neither singlehood nor polygamy.
+
+Now we can add the notion of preferences to this setting. 
+Each man m ∈ M ranks all the women; we will say that m prefers w to w' if m ranks w higher than w'.
+We will refer to the ordered ranking of m as his preference list.
+We will not allow ties in the ranking. 
+Each woman, analogously, ranks all the men.
+
+However, there's another case we have to think about:
+THere are tow pairs (m, w) and (m', w') in S with the property that m prefers w' to w, and w' prefers m to m'.
+In this case, there's nothing to stop m and w' from abandoning their current patners and heading off together.
+The set of marriages is not self-enforcing.
+We'll say that such a pair (m, w') is an instability with respect to S: (m, w') does not belong to S, but each of m and w' prefers the other to their partner in S.
+
+Generally, our goal is a set of marriages with no instabilities.
+We'll say that a matching S is stable if 
+1. it is perfect
+2. there is no instability with respect to S
+
+One important thing to keep in mind:
+It's possible for an instance to have more than one stable matching.
