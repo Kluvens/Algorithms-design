@@ -118,3 +118,26 @@ Thus, the While loop can be executed no more than n^2 many times. (end of the pr
 They by (1.1), m has already proposed to every woman.
 Thus, every woman is paired with a man, because a woman is not paired with anyone only if no one has made proposal to her.
 But this would mean that n women are paired with all of n men so m cannot be free, so this is a contradition. (end of the proof)
+
+(1.5) The matching produced by the algorithm is stable
+
+**Proof.** Note that during the While loop: a woman is paired with men of increasing ranks on her list; a man is paired with women of decreasing ranks on his list.
+A ssume now the opposite, that the matching is not stable; m prefers w' over w and w' prefers m over m'.
+Since m prefers w' over w, he must have proposed to w' before proposing to w;
+Since he is paired with w, woman w' must have either:
+rejected him because she was already with someone whom she prefers, or dropped him later after a proposal from someone whom she prefers.
+In both cases, she would now be with m' whom she prefers over m.
+This is prove by contradiction. (end of the proorf)
+
+For the men, the Gale-Shapley is ideal. Unfortunately, the same cannot be said for the women.
+For a woman w, we say that m is a valid partner if there is a stable matching that contains the pair (m, w).
+We say that m is the worst valid partner of w if m is a valid partner of w, and no man whom w ranks lower than m is a valid partner of hers.
+So this simple set of preference lists compactly summarizes a world in which someone is destined to end up unhappy:
+women are unhappy if men propose and men are unhappy if women propose.
+
+(1.6) In the stable matching S*, each woman is paired with her worst valid partner
+**Proof.** Suppose there were a pair (m, w) in S* such that m is not the worst valid partner of w.
+Then there is a stable matching S' in which w is paired with a man m' whom she likes less than m.
+In S', m is paired with a woman w' not= w;
+since w is the best valid partner of m, and w' is a valid partner of m, we see that m prefers w to w'.
+But from this it follows that (m, w) is an instability in S', contradicting the claim that S' is stable and hence contradicting our initial assumption. (end of the proof)
