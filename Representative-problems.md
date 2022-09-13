@@ -56,3 +56,65 @@ We'll say that a matching S is stable if
 
 One important thing to keep in mind:
 It's possible for an instance to have more than one stable matching.
+
+### Designing the Algorithm
+By now, we can show that there exists a stable matching for every set of preference lists among the men and women.
+Additionally, we will give an efficient algorithm that takes the preference lists and constructs a stable matching.
+
+Here is a concrete description of the Gale-Shapley algorithm:
+```
+Initially all m ∈ M and w ∈W are free
+While there is a man m who is free and hasn’t proposed to every woman
+  Choose such a man m
+  Let w be the highest-ranked woman in m’s preference list
+    to whom m has not yet proposed
+  If w is free then
+    (m, w) become engaged
+  Else w is currently engaged to m'
+    If w prefers m' to m then
+      m remains free
+    Else w prefers m to m'
+      (m, w) become engaged
+      m' becomes free
+    Endif
+  Endif
+Endwhile
+Return the set S of engaged pairs
+```
+
+However, even though the Gale-Shapley algorithm is simple to state, it is not immediately obvious that it returns a stable matching or even a perfect matching.
+
+### Analyzing the Algorithm
+First consider the view of a woman w during the execution of the algorithm.
+Initially, no one proposed to her, and she is free.
+As time goes on, a man m may propose to her and then she become engaged.
+Later, she may receive more proposals from other men.
+So we discover the following:
+
+(1.1) w remains engaged from the point at which she receives her first proposal;
+and the sequence of partners to which she is engaged gets better and better (in terms of her preference list).
+
+The view of a man m during the execution of the algorithm is rather different. 
+He is free until he proposes to the highest-ranked woman on his list; 
+at this point he may or may not become engaged. 
+As time goes on, he may alternate between being free and being engaged; 
+however, the following property does hold.
+
+(1.2) The sequence of women to whom m proposes gets worse and worse (in terms of his preference list)
+
+Now we show that the algorithm terminates, and give a bound on the maximum number of iterations needed for termination.
+
+(1.3) The Gale-Shapley algorithm terminates after at most n^2 (n * n) iterations of the While loop
+
+**Proof.** In every round of the While loop, one man proposes to one woman;
+every man can propose to a woman at most once;
+thus, every man can make at most n proposals;
+there are n men, so in total they can make less than or equal to n^2 proposals.
+Thus, the While loop can be executed no more than n^2 many times. (end of the proof)
+
+(1.4) If m is free at some point in the execution of the algorithm, then there is a woman to whom he has not yet proposed (i.e. every man is eventually paired with a woman).
+
+**Proof.** Suppose there comes a point when m is still free after the While loop has terminated.
+They by (1.1), m has already proposed to every woman.
+Thus, every woman is paired with a man, because a woman is not paired with anyone only if no one has made proposal to her.
+But this would mean that n women are paired with all of n men so m cannot be free, so this is a contradition. (end of the proof)
