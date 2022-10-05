@@ -353,7 +353,10 @@ we have found the k-th smallest element and we return.
 If index is less than k, then we recur for the right part.
 This reduces the expected complexity from O(n log n) to O(n), with a worst-case of O(n^2).
 
-A code example by python to find the k-th smallest element in an unsorted list:
+The partition here is to randomly pick up a number and reorder the list so that the numbers to the left are all smaller and the numbers to the right are all larger.
+Then we only need to think about the smaller part or the larger part.
+
+A code example by Python to find the k-th smallest element in an unsorted list:
 ``` python
 def partition(arr, l, r):
 
@@ -383,4 +386,63 @@ def kthSmallest(arr, l, r, k):
         return kthSmallest(arr, index + 1, r,
                             k - index + l - 1)
     print("Index out of bound")
+```
+
+### Count the number of subsets whose sum is within a range
+
+A code example by Python to count the number of subsets whose sum is within a range:
+``` python
+def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+	res = 0
+	presum = 0
+	sorted_presum = [0]
+	for k in range(len(nums)):
+		presum += nums[k]
+		idx_c = bisect_right(sorted_presum, presum)
+		idx_l = bisect_left(sorted_presum, presum - upper)
+		idx_r = bisect_right(sorted_presum, presum - lower)
+		res += idx_r - idx_l
+
+		sorted_presum[idx_c:idx_c] = [presum]
+
+	return res
+```
+
+My own solution is as follows, this is faster than the previous one:
+``` python
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        # First get the cumulative list
+        # takes O(n)
+        accumulated = nums.copy()
+        for i in range(0, len(nums)):
+            if i != 0:
+                accumulated[i] = nums[i] + accumulated[i-1]
+
+        # sort the cumulative list
+        # we do this because it's easy for later operations
+        # takes O(n logn)
+        new_acc = sorted(accumulated)
+
+        result = 0
+        num = 0
+
+        # takes O(n)        
+        for i in range(0, len(nums)):
+
+            # get how many subarrays are within the bound
+            # inside the loop, takes O(logn)
+            l = bisect_left(new_acc, lower)
+            r = bisect_right(new_acc, upper)
+            diff = r - l
+
+            result += diff
+            lower += nums[num]
+            upper += nums[num]
+            poped = bisect_left(new_acc, accumulated[num])
+            new_acc.pop(poped)
+            num += 1
+
+        # overall, takes O(n logn)
+        return result
 ```
